@@ -53,9 +53,17 @@
       </section>
 
       <!-- SCREEN 2: 视觉实验室 -->
-      <section class="screen screen-2" data-screen="2">
+      <section class="screen screen-2" :class="{'active': visitedScreens.includes(2)}" data-screen="2">
          <div class="screen-decoration decoration-2"></div>
-         <div class="split-layout">
+         <div class="screen-header anim-fade-up">
+            <h2 class="section-title centered">视觉实验室</h2>
+            <p class="section-desc centered">
+               在这个数字实验室中，我们探索视觉的无限可能。
+               从微观的粒子到宏观的宇宙，从静态的几何到动态的流体，
+               每一个实验都是对美学边界的突破。
+            </p>
+         </div>
+         <div class="split-layout anim-fade-up anim-delay-1">
             <div class="left-visual">
                <div class="visual-gallery">
                   <div 
@@ -65,7 +73,12 @@
                      @mouseleave="hoveredExperiment = null"
                   >
                      <div class="item-bg gradient-1"></div>
-                     <div class="item-icon">✨</div>
+                     <div class="item-icon">
+                        <!-- Sparkles SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                     </div>
                      <div class="item-text">粒子系统</div>
                   </div>
                   <div 
@@ -75,7 +88,13 @@
                      @mouseleave="hoveredExperiment = null"
                   >
                      <div class="item-bg gradient-2"></div>
-                     <div class="item-icon">💧</div>
+                     <div class="item-icon">
+                        <!-- Water SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z" />
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.8 13.2a2 2 0 000 2.8" />
+                        </svg>
+                     </div>
                      <div class="item-text">流体模拟</div>
                   </div>
                   <div 
@@ -85,7 +104,12 @@
                      @mouseleave="hoveredExperiment = null"
                   >
                      <div class="item-bg gradient-3"></div>
-                     <div class="item-icon">💡</div>
+                     <div class="item-icon">
+                        <!-- Lightbulb SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548 5.478A1 1 0 0114.464 21h-4.928a1 1 0 01-.995-.91L8 15.564z" />
+                        </svg>
+                     </div>
                      <div class="item-text">光线追踪</div>
                   </div>
                   <div 
@@ -95,18 +119,17 @@
                      @mouseleave="hoveredExperiment = null"
                   >
                      <div class="item-bg gradient-4"></div>
-                     <div class="item-icon">🔷</div>
+                     <div class="item-icon">
+                        <!-- Shape SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                        </svg>
+                     </div>
                      <div class="item-text">形态变换</div>
                   </div>
                </div>
             </div>
             <div class="right-content">
-               <h2 class="section-title">视觉实验室</h2>
-               <p class="section-desc">
-                  在这个数字实验室中，我们探索视觉的无限可能。
-                  从微观的粒子到宏观的宇宙，从静态的几何到动态的流体，
-                  每一个实验都是对美学边界的突破。
-               </p>
                <div class="experiment-list">
                   <div 
                      class="experiment-item" 
@@ -162,33 +185,41 @@
       </section>
 
       <!-- SCREEN 3: 代码诗篇 -->
-      <section class="screen screen-3" data-screen="3">
+      <section class="screen screen-3" :class="{'active': visitedScreens.includes(3)}" data-screen="3">
          <div class="screen-decoration decoration-3">
             <div class="key-btn">Ctrl</div>
             <div class="key-btn">C</div>
             <div class="key-btn">V</div>
          </div>
-         <div class="split-layout reverse">
+         <div class="screen-header anim-fade-up">
+            <h2 class="section-title centered">代码的诗篇</h2>
+            <p class="section-desc centered">
+               代码不仅是逻辑的堆砌，更是思想的表达。
+               在这里，每一行代码都经过精心雕琢，
+               追求简洁、优雅与高效的完美平衡。
+            </p>
+         </div>
+         <div class="split-layout reverse anim-fade-up anim-delay-1">
             <div class="left-content">
-               <h2 class="section-title">代码的诗篇</h2>
-               <p class="section-desc">
-                  代码不仅是逻辑的堆砌，更是思想的表达。
-                  在这里，每一行代码都经过精心雕琢，
-                  追求简洁、优雅与高效的完美平衡。
-               </p>
                <div class="code-philosophy">
                   <div class="philosophy-card">
-                     <div class="phil-icon">🎯</div>
+                     <div class="phil-icon">
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                     </div>
                      <h3>简洁至上</h3>
                      <p>删除不必要的复杂性，保留核心的本质。好的代码应该像诗歌一样简洁有力，每个字符都有其存在的意义。</p>
                   </div>
                   <div class="philosophy-card">
-                     <div class="phil-icon">⚡</div>
+                     <div class="phil-icon">
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                     </div>
                      <h3>性能为王</h3>
                      <p>60 FPS 不是目标，而是底线。通过 GPU 加速、算法优化和智能缓存，让每一帧都丝滑流畅。</p>
                   </div>
                   <div class="philosophy-card">
-                     <div class="phil-icon">🎨</div>
+                     <div class="phil-icon">
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
+                     </div>
                      <h3>美学驱动</h3>
                      <p>技术服务于美学，代码创造艺术。从像素级的细节到整体的视觉节奏，每个决策都基于美学考量。</p>
                   </div>
@@ -228,16 +259,18 @@ void main() {
       </section>
 
       <!-- SCREEN 4: 交互的艺术 -->
-      <section class="screen screen-4" data-screen="4">
+      <section class="screen screen-4" :class="{'active': visitedScreens.includes(4)}" data-screen="4">
          <div class="screen-decoration decoration-4"></div>
          <div class="centered-content">
-            <h2 class="section-title">交互的艺术</h2>
-            <p class="section-desc">
-               交互不仅是功能的实现，更是情感的传递。<br>
-               每一次点击、每一个悬停、每一帧动画，<br>
-               都在与用户进行一场无声的对话。
-            </p>
-            <div class="interaction-grid">
+            <div class="screen-header anim-fade-up" style="text-align: center;">
+               <h2 class="section-title centered" style="text-align: center; margin: 0 auto;">交互的艺术</h2>
+               <p class="section-desc centered" style="text-align: center; margin: 0 auto; max-width: 700px;">
+                  交互不仅是功能的实现，更是情感的传递。<br>
+                  每一次点击、每一个悬停、每一帧动画，<br>
+                  都在与用户进行一场无声的对话。
+               </p>
+            </div>
+            <div class="interaction-grid anim-fade-up anim-delay-2">
                <div class="interaction-card">
                   <div class="card-visual">
                      <div class="visual-element morph-circle"></div>
@@ -275,14 +308,16 @@ void main() {
       </section>
 
       <!-- SCREEN 5: 小程序开发 -->
-      <section class="screen screen-5" data-screen="5">
+      <section class="screen screen-5" :class="{'active': visitedScreens.includes(5)}" data-screen="5">
          <div class="screen-decoration decoration-5"></div>
          <div class="miniapp-showcase-full">
-            <h2 class="section-title centered">小程序开发能力</h2>
-            <p class="section-desc centered">
-               多样化的设计风格，流畅的交互体验，精致的视觉呈现
-            </p>
-            <div class="phones-container">
+            <div class="screen-header anim-fade-up" style="text-align: center;">
+               <h2 class="section-title centered" style="text-align: center; margin: 0 auto;">小程序开发能力</h2>
+               <p class="section-desc centered" style="text-align: center; margin: 0 auto; max-width: 700px;">
+                  多样化的设计风格，流畅的交互体验，精致的视觉呈现
+               </p>
+            </div>
+            <div class="phones-container anim-fade-up anim-delay-2">
                <!-- 手机1：电商首页 -->
                <div class="phone-wrapper">
                   <div class="phone-device">
@@ -605,23 +640,33 @@ void main() {
             
             <div class="tech-badges">
                <div class="tech-badge">
-                  <span class="badge-icon">🎨</span>
+                  <span class="badge-icon">
+                     <svg viewBox="0 0 24 24" fill="none" class="svg-icon-sm" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  </span>
                   <span>多样化设计</span>
                </div>
                <div class="tech-badge">
-                  <span class="badge-icon">⚡</span>
+                  <span class="badge-icon">
+                     <svg viewBox="0 0 24 24" fill="none" class="svg-icon-sm" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                  </span>
                   <span>流畅交互</span>
                </div>
                <div class="tech-badge">
-                  <span class="badge-icon">📱</span>
+                  <span class="badge-icon">
+                     <svg viewBox="0 0 24 24" fill="none" class="svg-icon-sm" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                  </span>
                   <span>原生体验</span>
                </div>
                <div class="tech-badge">
-                  <span class="badge-icon">🔧</span>
+                  <span class="badge-icon">
+                     <svg viewBox="0 0 24 24" fill="none" class="svg-icon-sm" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  </span>
                   <span>组件复用</span>
                </div>
                <div class="tech-badge">
-                  <span class="badge-icon">🚀</span>
+                  <span class="badge-icon">
+                     <svg viewBox="0 0 24 24" fill="none" class="svg-icon-sm" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                  </span>
                   <span>性能优化</span>
                </div>
             </div>
@@ -629,14 +674,16 @@ void main() {
       </section>
 
       <!-- SCREEN 6: 技术深度 -->
-      <section class="screen screen-6" data-screen="6">
+      <section class="screen screen-6" :class="{'active': visitedScreens.includes(6)}" data-screen="6">
          <div class="screen-decoration decoration-6"></div>
          <div class="tech-depth-container">
-            <h2 class="section-title centered">技术的深度</h2>
-            <p class="section-desc centered">
-               表面的华丽背后，是扎实的技术功底。从底层的 WebGL 到上层的 DOM 操作，每一层都经过精心设计和优化。
-            </p>
-            <div class="tech-split-layout">
+            <div class="screen-header anim-fade-up" style="text-align: center;">
+               <h2 class="section-title centered" style="text-align: center; margin: 0 auto;">技术的深度</h2>
+               <p class="section-desc centered" style="text-align: center; margin: 0 auto; max-width: 700px;">
+                  表面的华丽背后，是扎实的技术功底。从底层的 WebGL 到上层的 DOM 操作，每一层都经过精心设计和优化。
+               </p>
+            </div>
+            <div class="tech-split-layout anim-fade-up anim-delay-2">
                <div class="tech-left">
                   <div class="tech-layers-3d">
                      <div 
@@ -646,12 +693,11 @@ void main() {
                         @mouseleave="hoveredLayer = null"
                      >
                         <div class="layer-bg webgl-bg"></div>
+                        <div class="layer-particles">
+                           <div class="particle" v-for="i in 15" :key="i"></div>
+                        </div>
                         <div class="layer-content">
-                           <div class="layer-icon">🎮</div>
                            <div class="layer-name">WebGL</div>
-                           <div class="layer-particles">
-                              <div class="particle" v-for="i in 15" :key="i"></div>
-                           </div>
                         </div>
                      </div>
                      <div 
@@ -661,12 +707,11 @@ void main() {
                         @mouseleave="hoveredLayer = null"
                      >
                         <div class="layer-bg canvas-bg"></div>
+                        <div class="layer-waves">
+                           <div class="wave" v-for="i in 5" :key="i"></div>
+                        </div>
                         <div class="layer-content">
-                           <div class="layer-icon">🎨</div>
                            <div class="layer-name">Canvas 2D</div>
-                           <div class="layer-waves">
-                              <div class="wave" v-for="i in 5" :key="i"></div>
-                           </div>
                         </div>
                      </div>
                      <div 
@@ -676,12 +721,11 @@ void main() {
                         @mouseleave="hoveredLayer = null"
                      >
                         <div class="layer-bg dom-bg"></div>
+                        <div class="layer-grid">
+                           <div class="grid-item" v-for="i in 9" :key="i"></div>
+                        </div>
                         <div class="layer-content">
-                           <div class="layer-icon">🏗️</div>
                            <div class="layer-name">DOM</div>
-                           <div class="layer-grid">
-                              <div class="grid-item" v-for="i in 9" :key="i"></div>
-                           </div>
                         </div>
                      </div>
                   </div>
@@ -695,7 +739,9 @@ void main() {
                         @mouseleave="hoveredLayer = null"
                      >
                         <div class="detail-header">
-                           <div class="detail-icon">🎮</div>
+                           <div class="detail-icon">
+                              <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                           </div>
                            <h3>WebGL 渲染层</h3>
                         </div>
                         <p>GPU 加速渲染，15,000+ 粒子实时动画</p>
@@ -711,7 +757,9 @@ void main() {
                         @mouseleave="hoveredLayer = null"
                      >
                         <div class="detail-header">
-                           <div class="detail-icon">🎨</div>
+                           <div class="detail-icon">
+                              <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
+                           </div>
                            <h3>Canvas 2D 层</h3>
                         </div>
                         <p>2D 特效渲染，流畅动画循环</p>
@@ -727,7 +775,9 @@ void main() {
                         @mouseleave="hoveredLayer = null"
                      >
                         <div class="detail-header">
-                           <div class="detail-icon">🏗️</div>
+                           <div class="detail-icon">
+                              <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                           </div>
                            <h3>DOM 交互层</h3>
                         </div>
                         <p>响应式系统，精确滚动动画控制</p>
@@ -743,12 +793,12 @@ void main() {
       </section>
 
       <!-- SCREEN 7: 创作理念 -->
-      <section class="screen screen-7" data-screen="7">
+      <section class="screen screen-7" :class="{'active': visitedScreens.includes(7)}" data-screen="7">
          <div class="screen-decoration decoration-7"></div>
          <div class="centered-content">
-            <div class="philosophy-section">
-               <h2 class="section-title">创作的理念</h2>
-               <p class="section-desc">
+            <div class="philosophy-section anim-fade-up">
+               <h2 class="section-title centered">创作的理念</h2>
+               <p class="section-desc centered">
                   这不仅是一个展示页面，更是一次技术与艺术的探索。<br>
                   我们相信，最好的作品来自于对细节的执着，<br>
                   对性能的追求，以及对美学的坚持。
@@ -806,10 +856,12 @@ export default {
   name: "Home",
   data() {
     return {
+      hoveredNav: null, // 用于屏幕导航悬停
       hoveredLayer: null, // 用于左右联动
       hoveredExperiment: null, // 用于视觉实验室左右联动
-      hoveredNav: null, // 悬停的导航项
-      currentScreen: 1, // 当前屏幕
+      activeNav: 0,
+      currentScreen: 1,
+      visitedScreens: [1], // Track visited screens
       screens: [
         { title: '代码即艺术' },
         { title: '视觉实验室' },
@@ -821,6 +873,7 @@ export default {
       ]
     };
   },
+
   mounted() {
     this.initParticleWave();
     this.initScrollAnimations();
@@ -934,48 +987,17 @@ export default {
       ScrollTrigger.defaults({ scroller });
 
       // 为所有屏幕添加统一的标题和描述动画
-      const screens = ['.screen-2', '.screen-3', '.screen-4', '.screen-5', '.screen-6', '.screen-7'];
-      
-      screens.forEach((screen) => {
-        // 标题动画
-        gsap.from(`${screen} .section-title`, {
-          scrollTrigger: {
-            trigger: screen,
-            start: 'top center',
-            toggleActions: 'play none none reverse'
-          },
-          y: 50,
-          opacity: 0,
-          duration: 1,
-          ease: 'power3.out',
-          immediateRender: false
-        });
 
-        // 描述动画
-        gsap.from(`${screen} .section-desc`, {
-          scrollTrigger: {
-            trigger: screen,
-            start: 'top center',
-            toggleActions: 'play none none reverse'
-          },
-          y: 30,
-          opacity: 0,
-          duration: 1,
-          delay: 0.2,
-          ease: 'power3.out',
-          immediateRender: false
-        });
-      });
 
-      // Screen 1
-      gsap.from('.glass-shapes .shape', {
+      // Screen 1 - 形状在页面加载时可见，滚动离开时淡出
+      gsap.to('.glass-shapes .shape', {
         scrollTrigger: {
           trigger: '.screen-1',
-          start: 'top center',
+          start: 'top top',
           end: 'bottom top',
           scrub: 1
         },
-        y: 100,
+        y: -100,
         opacity: 0,
         stagger: 0.2
       });
@@ -992,163 +1014,8 @@ export default {
         stagger: 0.2
       });
 
-      // Screen 2 - 视觉实验室
-      gsap.from('.screen-2 .visual-gallery', {
-        scrollTrigger: {
-          trigger: '.screen-2',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        x: -50,
-        opacity: 0,
-        duration: 1,
-        delay: 0.4,
-        immediateRender: false
-      });
-
-      gsap.from('.screen-2 .experiment-list .experiment-item', {
-        scrollTrigger: {
-          trigger: '.screen-2',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        x: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        delay: 0.5,
-        immediateRender: false
-      });
-
-      // Screen 3 - 代码诗篇
-      gsap.from('.screen-3 .code-philosophy .philosophy-card', {
-        scrollTrigger: {
-          trigger: '.screen-3',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        delay: 0.4,
-        immediateRender: false
-      });
-
-      gsap.from('.screen-3 .code-display', {
-        scrollTrigger: {
-          trigger: '.screen-3',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        x: 50,
-        opacity: 0,
-        duration: 1,
-        delay: 0.5,
-        immediateRender: false
-      });
-
-      // Screen 4 - 交互艺术
-      gsap.from('.screen-4 .interaction-card', {
-        scrollTrigger: {
-          trigger: '.screen-4',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        y: 80,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        delay: 0.4,
-        immediateRender: false
-      });
-
-      // Screen 5 - 小程序开发
-      gsap.from('.screen-5 .phone-wrapper', {
-        scrollTrigger: {
-          trigger: '.screen-5',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        y: 100,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        delay: 0.4,
-        immediateRender: false
-      });
-
-      gsap.from('.screen-5 .tech-badges .tech-badge', {
-        scrollTrigger: {
-          trigger: '.screen-5',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        scale: 0,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.8,
-        ease: 'back.out(1.7)',
-        immediateRender: false
-      });
-
-      // Screen 6 - 技术深度
-      gsap.from('.screen-6 .tech-layer-card', {
-        scrollTrigger: {
-          trigger: '.screen-6',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        x: -50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        delay: 0.4,
-        immediateRender: false
-      });
-
-      gsap.from('.screen-6 .detail-card', {
-        scrollTrigger: {
-          trigger: '.screen-6',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        x: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        delay: 0.5,
-        immediateRender: false
-      });
-
-      // Screen 7 - 创意哲学
-      gsap.from('.screen-7 .principle-card', {
-        scrollTrigger: {
-          trigger: '.screen-7',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        delay: 0.4,
-        immediateRender: false
-      });
-
-      gsap.from('.screen-7 .closing-message', {
-        scrollTrigger: {
-          trigger: '.screen-7',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: 0.8,
-        immediateRender: false
-      });
+      // Screens 2-7 are handled by CSS animations + visitedScreens logic
+      // to prevents content from disappearing when scrolling up.
     },
     
     onResize() {
@@ -1169,20 +1036,40 @@ export default {
     
     updateCurrentScreen() {
       const scroller = this.$refs.scroller;
+      if (!scroller) return;
+
       const screens = scroller.querySelectorAll('.screen');
       const scrollTop = scroller.scrollTop;
       const windowHeight = window.innerHeight;
       
+      let newScreen = this.currentScreen;
+
       screens.forEach((screen, index) => {
         const rect = screen.getBoundingClientRect();
-        const screenTop = rect.top + scrollTop;
-        const screenBottom = screenTop + rect.height;
-        const viewportCenter = scrollTop + windowHeight / 2;
+        // Calculate relative to viewport
+        const screenTop = rect.top; 
+        const screenBottom = rect.bottom;
+        const viewportCenter = windowHeight / 2;
         
-        if (viewportCenter >= screenTop && viewportCenter < screenBottom) {
-          this.currentScreen = index + 1;
+        // If screen center is roughly in viewport
+        if (screenTop < viewportCenter && screenBottom > viewportCenter) {
+           newScreen = index + 1;
         }
       });
+
+      if (this.currentScreen !== newScreen) {
+        this.currentScreen = newScreen;
+      }
+      
+      // Ensure visitedScreens is initialized (defensive)
+      if (!this.visitedScreens) {
+        this.visitedScreens = [1];
+      }
+      
+      // Add current screen to visited list
+      if (!this.visitedScreens.includes(newScreen)) {
+        this.visitedScreens.push(newScreen);
+      }
     }
   }
 };
@@ -1575,10 +1462,36 @@ export default {
   min-height: 100vh;
   scroll-snap-align: start;
   display: flex;
+  flex-direction: column; /* Changed to column to stack header */
   align-items: center;
   justify-content: center;
   padding: 80px 40px;
   position: relative;
+}
+
+.screen-header {
+  text-align: center;
+  margin-bottom: 50px;
+  width: 100%;
+  max-width: 900px;
+  z-index: 2;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.section-title.centered {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-desc.centered {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 700px;
 }
 
 /* ========== SCREEN 1: 首页 ========== */
@@ -1595,10 +1508,10 @@ export default {
 
 .shape {
   position: absolute;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
-  backdrop-filter: blur(50px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 25px 70px rgba(99, 102, 241, 0.2), inset 0 0 40px rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
 
 .shape-triangle {
@@ -1607,6 +1520,7 @@ export default {
   left: 5%;
   top: 15%;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(255,255,255,0.1));
   animation: float 6s ease-in-out infinite;
 }
 
@@ -1615,9 +1529,10 @@ export default {
   height: 280px;
   right: 8%;
   top: 20%;
-  border-radius: 25px;
+  border-radius: 40px;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(255,255,255,0.1));
   transform: rotate(15deg);
-  animation: float 8s ease-in-out infinite 1s;
+  animation: floatCube 8s ease-in-out infinite;
 }
 
 .shape-sphere {
@@ -1626,6 +1541,7 @@ export default {
   right: 15%;
   bottom: 15%;
   border-radius: 50%;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(255,255,255,0.1));
   animation: float 9s ease-in-out infinite 3s;
 }
 
@@ -1819,21 +1735,25 @@ export default {
 .experiment-list {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
+  justify-content: center;
+  height: 100%;
 }
 
 .experiment-item {
   display: flex;
-  gap: 25px;
-  align-items: flex-start;
+  gap: 20px;
+  align-items: center; /* Vertically align items */
   transition: all 0.4s ease;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 20px;
+  border-radius: 16px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.4);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(10px);
+  border-left: 4px solid transparent; /* Prevent layout shift */
 }
 
 .experiment-item::before,
@@ -1870,12 +1790,10 @@ export default {
 
 .experiment-item:hover {
   background: rgba(255, 255, 255, 0.5);
-  transform: translateX(10px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 .experiment-item.highlighted {
-  transform: translateX(15px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
@@ -2011,9 +1929,72 @@ export default {
   box-shadow: 0 10px 40px rgba(99, 102, 241, 0.15);
 }
 
+/* ========== 全局动画修复 (防止闪烁) ========== */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.active .anim-fade-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.anim-delay-1 { transition-delay: 0.1s; }
+.anim-delay-2 { transition-delay: 0.2s; }
+.anim-delay-3 { transition-delay: 0.3s; }
+
+/* Remove explicit keyframes to rely on transitions which are more robust against flicker */
+
+/* Base Icon Style */
 .phil-icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: white;
+  border: none;
+}
+
+.phil-icon .svg-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* 1. Simplicity - Cyan/Blue gradient default */
+.philosophy-card:nth-child(1) .phil-icon {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+}
+.philosophy-card:nth-child(1):hover .phil-icon {
+  transform: translateY(-6px) rotate(-8deg) scale(1.05);
+  box-shadow: 0 15px 30px rgba(6, 182, 212, 0.5);
+}
+
+/* 2. Performance - Violet/Purple gradient default */
+.philosophy-card:nth-child(2) .phil-icon {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+.philosophy-card:nth-child(2):hover .phil-icon {
+  transform: translateY(-6px) rotate(8deg) scale(1.05);
+  box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
+}
+
+/* 3. Aesthetics - Amber/Orange gradient default */
+.philosophy-card:nth-child(3) .phil-icon {
+  background: linear-gradient(135deg, #f59e0b, #f43f5e);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+}
+.philosophy-card:nth-child(3):hover .phil-icon {
+  transform: translateY(-6px) rotate(-8deg) scale(1.05);
+  box-shadow: 0 15px 30px rgba(245, 158, 11, 0.5);
 }
 
 .philosophy-card h3 {
@@ -3580,13 +3561,14 @@ export default {
 }
 
 .layer-content {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   color: white;
 }
 
@@ -3595,6 +3577,8 @@ export default {
   margin-bottom: 10px;
   animation: iconFloat 3s ease-in-out infinite;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes iconFloat {
@@ -3606,6 +3590,8 @@ export default {
   font-size: 1.5rem;
   font-weight: 800;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
 }
 
 /* WebGL 粒子效果 */
@@ -3613,7 +3599,7 @@ export default {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 
@@ -3656,7 +3642,7 @@ export default {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 
@@ -3690,7 +3676,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 
@@ -3736,7 +3722,8 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 12px;
 }
 
 .detail-card.glass {
@@ -3770,8 +3757,6 @@ export default {
 .detail-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
 }
 
 .detail-icon {
@@ -3795,7 +3780,6 @@ export default {
   color: #64748b;
   line-height: 1.5;
   margin: 0;
-  flex: 1;
 }
 
 .tech-tags {
@@ -3949,6 +3933,11 @@ export default {
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-30px) rotate(5deg); }
+}
+
+@keyframes floatCube {
+  0%, 100% { transform: translateY(0) rotate(15deg); }
+  50% { transform: translateY(-30px) rotate(20deg); }
 }
 
 .content-1 {

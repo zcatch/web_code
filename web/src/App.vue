@@ -2,10 +2,21 @@
   <div id="app">
     <nav class="navbar glass-panel">
       <div class="container navbar-content">
-        <div class="logo gradient-text">NEXUS</div>
-        <div class="links">
-          <router-link to="/">主页</router-link>
-          <router-link to="/about">关于</router-link>
+        <!-- Left -->
+        <div class="nav-left">
+          <router-link to="/" class="logo-link">
+            <div class="logo gradient-text">NEXUS</div>
+          </router-link>
+        </div>
+        
+        <!-- Center -->
+        <div class="nav-center">
+          <router-link to="/blog" class="nav-item">博客</router-link>
+        </div>
+
+        <!-- Right -->
+        <div class="nav-right">
+          <router-link to="/about" class="nav-item">关于</router-link>
         </div>
       </div>
     </nav>
@@ -27,6 +38,7 @@ export default {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  background-color: var(--color-bg);
 }
 
 .navbar {
@@ -38,16 +50,66 @@ export default {
   height: 70px;
   border-radius: 0;
   border-bottom: 1px solid rgba(255,255,255,0.2);
-  /* Glass effect stays via glass-panel class */
 }
 
-/* Adjust navbar content to fit new rounded shape if needed */
 .navbar-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
   padding: 0 20px;
+}
+
+.nav-left, .nav-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.nav-left {
+  justify-content: flex-start;
+}
+
+.nav-right {
+  justify-content: flex-end;
+}
+
+.nav-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+.nav-item {
+  font-weight: 500;
+  font-size: 1.05rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  color: var(--color-text-main);
+  position: relative;
+}
+
+.nav-item:hover, .nav-item.router-link-active {
+  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.nav-item.router-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 2px;
 }
 
 .page-content {
