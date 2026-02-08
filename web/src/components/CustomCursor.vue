@@ -5,68 +5,66 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "CustomCursor",
-  data() {
-    return {
-      x: -100,
-      y: -100,
-      circleX: -100,
-      circleY: -100,
-      isHovering: false,
-    };
-  },
-  computed: {
-    dotStyle() {
-      return {
-        transform: `translate(${this.x}px, ${this.y}px)`
-      };
-    },
-    circleStyle() {
-      return {
-        transform: `translate(${this.circleX}px, ${this.circleY}px)`
-      };
-    }
-  },
-  mounted() {
-    document.addEventListener("mousemove", this.moveCursor);
-    document.addEventListener("mouseover", this.checkHover);
-    this.animateCircle();
-  },
-  destroyed() {
-    document.removeEventListener("mousemove", this.moveCursor);
-    document.removeEventListener("mouseover", this.checkHover);
-  },
-  methods: {
-    moveCursor(e) {
-      this.x = e.clientX;
-      this.y = e.clientY;
-    },
-    animateCircle() {
-      // Linear interpolation for smooth trailing
-      const ease = 0.15;
-      this.circleX += (this.x - this.circleX) * ease;
-      this.circleY += (this.y - this.circleY) * ease;
-      
-      requestAnimationFrame(this.animateCircle);
-    },
-    checkHover(e) {
-      const target = e.target;
-      if (
-        target.tagName.toLowerCase() === 'a' ||
-        target.tagName.toLowerCase() === 'button' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        target.classList.contains('clickable')
-      ) {
-        this.isHovering = true;
-      } else {
-        this.isHovering = false;
-      }
-    }
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+
+const x = ref(-100);
+const y = ref(-100);
+const circleX = ref(-100);
+const circleY = ref(-100);
+const isHovering = ref(false);
+let requestID = null;
+
+const dotStyle = computed(() => ({
+  transform: `translate(${x.value}px, ${y.value}px)`
+}));
+
+const circleStyle = computed(() => ({
+  transform: `translate(${circleX.value}px, ${circleY.value}px)`
+}));
+
+const moveCursor = (e) => {
+  x.value = e.clientX;
+  y.value = e.clientY;
+};
+
+const animateCircle = () => {
+  // Linear interpolation for smooth trailing
+  const ease = 0.15;
+  circleX.value += (x.value - circleX.value) * ease;
+  circleY.value += (y.value - circleY.value) * ease;
+  
+  requestID = requestAnimationFrame(animateCircle);
+};
+
+const checkHover = (e) => {
+  const target = e.target;
+  if (
+    target.tagName.toLowerCase() === 'a' ||
+    target.tagName.toLowerCase() === 'button' ||
+    target.closest('a') ||
+    target.closest('button') ||
+    target.classList.contains('clickable')
+  ) {
+    isHovering.value = true;
+  } else {
+    isHovering.value = false;
   }
 };
+
+onMounted(() => {
+  document.addEventListener("mousemove", moveCursor);
+  document.addEventListener("mouseover", checkHover);
+  animateCircle();
+});
+
+onUnmounted(() => {
+  document.removeEventListener("mousemove", moveCursor);
+  document.removeEventListener("mouseover", checkHover);
+  if (requestID) {
+    cancelAnimationFrame(requestID);
+  }
+});
 </script>
 
 <style scoped>

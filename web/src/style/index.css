@@ -1,29 +1,58 @@
 :root {
-    /* Vibrant Light Theme (Restored) */
+    /* Vibrant Light Theme (Pink Dominant) */
     --color-bg: #ffffff;
     --color-surface: #f3f4f6;
-    --color-primary: #4f46e5;
-    /* Indigo */
-    --color-secondary: #db2777;
-    /* Pink */
+
+    /* Swapped Primary (Sakura Pink) and Secondary (Indigo) */
+    --color-primary: #f472b6;
+    /* Sakura Pink (Pink-400) */
+    --color-primary-rgb: 244, 114, 182;
+
+    --color-secondary: #4f46e5;
+    /* Indigo-600 */
+    --color-secondary-rgb: 79, 70, 229;
+
+    /* Primary Color Opacity Scale (1-8) */
+    --color-primary-1: rgba(var(--color-primary-rgb), 0.1);
+    --color-primary-2: rgba(var(--color-primary-rgb), 0.2);
+    --color-primary-3: rgba(var(--color-primary-rgb), 0.3);
+    --color-primary-4: rgba(var(--color-primary-rgb), 0.4);
+    --color-primary-5: rgba(var(--color-primary-rgb), 0.5);
+    --color-primary-6: rgba(var(--color-primary-rgb), 0.6);
+    --color-primary-7: rgba(var(--color-primary-rgb), 0.7);
+    --color-primary-8: rgba(var(--color-primary-rgb), 0.8);
+
+    /* Secondary Color Opacity Scale (1-8) */
+    --color-secondary-1: rgba(var(--color-secondary-rgb), 0.1);
+    --color-secondary-2: rgba(var(--color-secondary-rgb), 0.2);
+    --color-secondary-3: rgba(var(--color-secondary-rgb), 0.3);
+    --color-secondary-4: rgba(var(--color-secondary-rgb), 0.4);
+    --color-secondary-5: rgba(var(--color-secondary-rgb), 0.5);
+    --color-secondary-6: rgba(var(--color-secondary-rgb), 0.6);
+    --color-secondary-7: rgba(var(--color-secondary-rgb), 0.7);
+    --color-secondary-8: rgba(var(--color-secondary-rgb), 0.8);
+
     --color-accent: #f59e0b;
     /* Amber */
     --color-text-main: #111827;
     --color-text-muted: #4b5563;
 
-    --btn-primary-bg: linear-gradient(135deg, #4f46e5, #db2777);
-    --btn-hover-glow: 0 10px 20px rgba(219, 39, 119, 0.3);
+    /* Soft Pink to Indigo Gradient */
+    --btn-primary-bg: linear-gradient(135deg, #f472b6, #4f46e5);
+    --btn-hover-glow: 0 10px 20px rgba(244, 114, 182, 0.4);
 
-    --font-main: 'Outfit', sans-serif;
+    --font-main: 'Outfit',
+        sans-serif;
 
     --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+        0 8px 10px -6px rgb(0 0 0 / 0.1);
     --glass-bg: rgba(255, 255, 255, 0.85);
     /* Increased opacity for readability */
     --glass-border: rgba(255, 255, 255, 0.9);
     /* More visible border */
 
-    --gradient-main: linear-gradient(135deg, #4f46e5 0%, #db2777 100%);
+    --gradient-main: linear-gradient(135deg, #f472b6 0%, #4f46e5 100%);
     --gradient-gold: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
 }
 
@@ -86,16 +115,12 @@ button {
 /* Global Reset & Base Styles */
 html,
 body {
-    height: 100%;
+    min-height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    /* Prevent native scroll */
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
+    overflow-x: hidden;
+    /* Enable vertical scroll, hide horizontal */
 }
 
 /* Hide scrollbar for Chrome/Safari/Opera */
@@ -140,17 +165,7 @@ body {
     height: 0;
 }
 
-html,
-body {
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE */
-    overflow: hidden;
-    /* Prevent body scroll */
-    height: 100%;
-    width: 100%;
-}
+/* Global Scrollbar Hide handled by first block */
 
 /* Animations */
 @keyframes fadeInDp {

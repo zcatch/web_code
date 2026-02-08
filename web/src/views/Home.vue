@@ -845,234 +845,260 @@ void main() {
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default {
-  name: "Home",
-  data() {
-    return {
-      hoveredNav: null, // 用于屏幕导航悬停
-      hoveredLayer: null, // 用于左右联动
-      hoveredExperiment: null, // 用于视觉实验室左右联动
-      activeNav: 0,
-      currentScreen: 1,
-      visitedScreens: [1], // Track visited screens
-      screens: [
-        { title: '代码即艺术' },
-        { title: '视觉实验室' },
-        { title: '代码诗篇' },
-        { title: '交互艺术' },
-        { title: '小程序开发' },
-        { title: '技术深度' },
-        { title: '创作理念' }
-      ]
-    };
-  },
+// ==========================================
+// 引用 & 状态 (Refs & State)
+// ==========================================
+const canvasContainer = ref(null); // 对应 ref="canvasContainer"
+const scroller = ref(null);        // 对应 ref="scroller"
 
-  mounted() {
-    this.initParticleWave();
-    this.initScrollAnimations();
-    
-    // 监听滚动更新当前屏幕
-    const scroller = this.$refs.scroller;
-    scroller.addEventListener('scroll', this.updateCurrentScreen);
-    this.updateCurrentScreen();
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
-    if (this.animFrame) cancelAnimationFrame(this.animFrame);
-  },
-  methods: {
-    initParticleWave() {
-      const container = this.$refs.canvasContainer;
+const hoveredNav = ref(null);       // 用于屏幕导航悬停
+const hoveredLayer = ref(null);     // 用于左右联动
+const hoveredExperiment = ref(null);// 用于视觉实验室左右联动
+const activeNav = ref(0);
+const currentScreen = ref(1);
+const visitedScreens = ref([1]);    // 追踪已访问的屏幕
+
+// 静态配置
+const screens = [
+  { title: '代码即艺术' },
+  { title: '视觉实验室' },
+  { title: '代码诗篇' },
+  { title: '交互艺术' },
+  { title: '小程序开发' },
+  { title: '技术深度' },
+  { title: '创作理念' }
+];
+
+// Three.js 实例变量 (不需要响应式)
+let scene = null;
+let camera = null;
+let renderer = null;
+let points = null;
+let animFrame = null;
+
+// ==========================================
+// 方法 (Methods)
+// ==========================================
+
+// 初始化粒子波浪效果
+const initParticleWave = () => {
+  if (!canvasContainer.value) return;
+  
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xf8fafc);
+  scene.fog = new THREE.Fog(0xf8fafc, 10, 100);
+
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 30, 50);
+
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  canvasContainer.value.appendChild(renderer.domElement);
+
+  const count = 100;
+  const geometry = new THREE.BufferGeometry();
+  const positions = [];
+  const colors = [];
+
+  const c1 = new THREE.Color(0x3b82f6); // 蓝色
+  const c2 = new THREE.Color(0x8b5cf6); // 紫色
+  const c3 = new THREE.Color(0xec4899); // 粉色
+  
+  for (let x = 0; x <= count; x++) {
+    for (let z = 0; z <= count; z++) {
+      const u = (x / count) - 0.5;
+      const v = (z / count) - 0.5;
+      positions.push(u * 120, 0, v * 120);
       
-      this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color(0xf8fafc);
-      this.scene.fog = new THREE.Fog(0xf8fafc, 10, 100);
-
-      this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      this.camera.position.set(0, 30, 50);
-
-      this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      container.appendChild(this.renderer.domElement);
-
-      const count = 100;
-      const geometry = new THREE.BufferGeometry();
-      const positions = [];
-      const colors = [];
-
-      const c1 = new THREE.Color(0x3b82f6); // 蓝色
-      const c2 = new THREE.Color(0x8b5cf6); // 紫色
-      const c3 = new THREE.Color(0xec4899); // 粉色
-      
-      for (let x = 0; x <= count; x++) {
-        for (let z = 0; z <= count; z++) {
-          const u = (x / count) - 0.5;
-          const v = (z / count) - 0.5;
-          positions.push(u * 120, 0, v * 120);
-          
-          // 三色渐变
-          let color;
-          if (x / count < 0.5) {
-            color = c1.clone().lerp(c2, (x / count) * 2);
-          } else {
-            color = c2.clone().lerp(c3, ((x / count) - 0.5) * 2);
-          }
-          colors.push(color.r, color.g, color.b);
-        }
+      // 三色渐变
+      let color;
+      if (x / count < 0.5) {
+        color = c1.clone().lerp(c2, (x / count) * 2);
+      } else {
+        color = c2.clone().lerp(c3, ((x / count) - 0.5) * 2);
       }
-
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-      const material = new THREE.ShaderMaterial({
-        uniforms: {
-          uTime: { value: 0 },
-          uSize: { value: 4.0 * window.devicePixelRatio }
-        },
-        vertexShader: `
-          uniform float uTime;
-          uniform float uSize;
-          varying vec3 vColor;
-          varying float vAlpha;
-          
-          void main() {
-            vColor = color;
-            vec3 pos = position;
-            float wave = sin(pos.x * 0.1 + uTime) * 3.0 + cos(pos.z * 0.1 + uTime * 1.2) * 3.0;
-            pos.y = wave;
-            
-            vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-            gl_PointSize = uSize * (25.0 / -mvPosition.z);
-            gl_Position = projectionMatrix * mvPosition;
-            vAlpha = smoothstep(70.0, 20.0, -mvPosition.z);
-          }
-        `,
-        fragmentShader: `
-          varying vec3 vColor;
-          varying float vAlpha;
-          
-          void main() {
-            vec2 xy = gl_PointCoord.xy - vec2(0.5);
-            if(length(xy) > 0.5) discard;
-            gl_FragColor = vec4(vColor, vAlpha * 0.6);
-          }
-        `,
-        transparent: true,
-        vertexColors: true
-      });
-
-      this.points = new THREE.Points(geometry, material);
-      this.scene.add(this.points);
-
-      window.addEventListener('resize', this.onResize);
-
-      const animate = () => {
-        this.animFrame = requestAnimationFrame(animate);
-        material.uniforms.uTime.value += 0.008;
-        this.renderer.render(this.scene, this.camera);
-      };
-      animate();
-    },
-    
-    initScrollAnimations() {
-      const scroller = this.$refs.scroller;
-      ScrollTrigger.defaults({ scroller });
-
-      // 为所有屏幕添加统一的标题和描述动画
-
-
-      // Screen 1 - 形状在页面加载时可见，滚动离开时淡出
-      gsap.to('.glass-shapes .shape', {
-        scrollTrigger: {
-          trigger: '.screen-1',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1
-        },
-        y: -100,
-        opacity: 0,
-        stagger: 0.2
-      });
-
-      gsap.from('.content-1 > *', {
-        scrollTrigger: {
-          trigger: '.screen-1',
-          start: 'top center',
-          toggleActions: 'play none none reverse'
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2
-      });
-
-      // Screens 2-7 are handled by CSS animations + visitedScreens logic
-      // to prevents content from disappearing when scrolling up.
-    },
-    
-    onResize() {
-      if(this.camera && this.renderer) {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-      }
-    },
-    
-    scrollToScreen(screenNumber) {
-      const scroller = this.$refs.scroller;
-      const screens = scroller.querySelectorAll('.screen');
-      if (screens[screenNumber - 1]) {
-        screens[screenNumber - 1].scrollIntoView({ behavior: 'smooth' });
-      }
-    },
-    
-    updateCurrentScreen() {
-      const scroller = this.$refs.scroller;
-      if (!scroller) return;
-
-      const screens = scroller.querySelectorAll('.screen');
-      const scrollTop = scroller.scrollTop;
-      const windowHeight = window.innerHeight;
-      
-      let newScreen = this.currentScreen;
-
-      screens.forEach((screen, index) => {
-        const rect = screen.getBoundingClientRect();
-        // Calculate relative to viewport
-        const screenTop = rect.top; 
-        const screenBottom = rect.bottom;
-        const viewportCenter = windowHeight / 2;
-        
-        // If screen center is roughly in viewport
-        if (screenTop < viewportCenter && screenBottom > viewportCenter) {
-           newScreen = index + 1;
-        }
-      });
-
-      if (this.currentScreen !== newScreen) {
-        this.currentScreen = newScreen;
-      }
-      
-      // Ensure visitedScreens is initialized (defensive)
-      if (!this.visitedScreens) {
-        this.visitedScreens = [1];
-      }
-      
-      // Add current screen to visited list
-      if (!this.visitedScreens.includes(newScreen)) {
-        this.visitedScreens.push(newScreen);
-      }
+      colors.push(color.r, color.g, color.b);
     }
   }
+
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uSize: { value: 4.0 * window.devicePixelRatio }
+    },
+    vertexShader: `
+      uniform float uTime;
+      uniform float uSize;
+      varying vec3 vColor;
+      varying float vAlpha;
+      
+      void main() {
+        vColor = color;
+        vec3 pos = position;
+        float wave = sin(pos.x * 0.1 + uTime) * 3.0 + cos(pos.z * 0.1 + uTime * 1.2) * 3.0;
+        pos.y = wave;
+        
+        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+        gl_PointSize = uSize * (25.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+        vAlpha = smoothstep(70.0, 20.0, -mvPosition.z);
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor;
+      varying float vAlpha;
+      
+      void main() {
+        vec2 xy = gl_PointCoord.xy - vec2(0.5);
+        if(length(xy) > 0.5) discard;
+        gl_FragColor = vec4(vColor, vAlpha * 0.6);
+      }
+    `,
+    transparent: true,
+    vertexColors: true
+  });
+
+  points = new THREE.Points(geometry, material);
+  scene.add(points);
+
+  const animate = () => {
+    animFrame = requestAnimationFrame(animate);
+    material.uniforms.uTime.value += 0.008;
+    if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+    }
+  };
+  animate();
 };
+
+// 初始化滚动与动画
+const initScrollAnimations = () => {
+  if (!scroller.value) return;
+  
+  ScrollTrigger.defaults({ scroller: scroller.value });
+
+  // Screen 1 - 形状在页面加载时可见，滚动离开时淡出
+  gsap.to('.glass-shapes .shape', {
+    scrollTrigger: {
+      trigger: '.screen-1',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1
+    },
+    y: -100,
+    opacity: 0,
+    stagger: 0.2
+  });
+
+  gsap.from('.content-1 > *', {
+    scrollTrigger: {
+      trigger: '.screen-1',
+      start: 'top center',
+      toggleActions: 'play none none reverse'
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    stagger: 0.2
+  });
+};
+
+// 窗口大小调整
+const onResize = () => {
+  if(camera && renderer) {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+};
+
+// 滚动至指定屏幕
+const scrollToScreen = (screenNumber) => {
+  if (!scroller.value) return;
+  const screenElements = scroller.value.querySelectorAll('.screen');
+  if (screenElements[screenNumber - 1]) {
+    screenElements[screenNumber - 1].scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
+// 更新当前活跃屏幕状态
+const updateCurrentScreen = () => {
+  if (!scroller.value) return;
+
+  const screenElements = scroller.value.querySelectorAll('.screen');
+  // const scrollTop = scroller.value.scrollTop; // Unused
+  const windowHeight = window.innerHeight;
+  
+  let newScreen = currentScreen.value;
+
+  screenElements.forEach((screen, index) => {
+    const rect = screen.getBoundingClientRect();
+    const screenTop = rect.top; 
+    const screenBottom = rect.bottom;
+    const viewportCenter = windowHeight / 2;
+    
+    // 如果屏幕中心大致在视口内
+    if (screenTop < viewportCenter && screenBottom > viewportCenter) {
+       newScreen = index + 1;
+    }
+  });
+
+  if (currentScreen.value !== newScreen) {
+    currentScreen.value = newScreen;
+  }
+  
+  // 添加到已访问列表
+  if (!visitedScreens.value.includes(newScreen)) {
+    visitedScreens.value.push(newScreen);
+  }
+};
+
+// ==========================================
+// 生命周期 (Lifecycle)
+// ==========================================
+onMounted(() => {
+  // DOM 挂载后初始化 Three.js
+  initParticleWave();
+  
+  // 确保 DOM 完全准备好再初始化 ScrollTrigger
+  nextTick(() => {
+    initScrollAnimations();
+    if (scroller.value) {
+        scroller.value.addEventListener('scroll', updateCurrentScreen);
+        // 初始化一次以设置正确状态
+        updateCurrentScreen();
+    }
+    
+    // 全局 resize 监听
+    window.addEventListener('resize', onResize);
+  });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', onResize);
+  if (scroller.value) {
+      scroller.value.removeEventListener('scroll', updateCurrentScreen);
+  }
+  if (animFrame) cancelAnimationFrame(animFrame);
+  
+  // 释放 Three.js 资源
+  if (renderer) {
+      renderer.dispose();
+      // 可以添加更多清理逻辑，如 geometry.dispose(), material.dispose()
+  }
+});
 </script>
 
 <style scoped>
@@ -4528,10 +4554,21 @@ export default {
 }
 
 /* ========== 响应式设计 ========== */
-@media(max-width: 1200px) {
+
+/* ===== 大屏幕 (< 1200px) ===== */
+@media (max-width: 1200px) {
   .split-layout {
     grid-template-columns: 1fr;
     gap: 60px;
+  }
+  
+  .split-layout.reverse {
+    direction: ltr;
+  }
+  
+  .tech-split-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
   }
   
   .workflow-grid {
@@ -4541,17 +4578,415 @@ export default {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  
+  .phones-container {
+    gap: 30px;
+  }
+  
+  .phone-wrapper.main-phone {
+    transform: scale(1.08);
+  }
 }
 
-@media(max-width: 768px) {
+/* ===== 中等屏幕 (< 992px) ===== */
+@media (max-width: 992px) {
+  .screen {
+    padding: 60px 30px;
+  }
+  
   .main-title {
-    font-size: 4rem;
+    font-size: 4.5rem;
+    letter-spacing: -1px;
   }
   
   .section-title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
   }
   
+  .section-desc {
+    font-size: 1rem;
+  }
+  
+  .interaction-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .principles-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .phones-container {
+    gap: 20px;
+  }
+  
+  .phone-device {
+    width: 200px;
+    height: 400px;
+  }
+  
+  .phone-device.large {
+    width: 220px;
+    height: 440px;
+  }
+  
+  .phone-wrapper.main-phone {
+    transform: scale(1.05);
+  }
+  
+  /* 右侧导航缩小 */
+  .screen-nav {
+    right: 20px;
+    gap: 15px;
+  }
+  
+  .nav-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .dot-inner {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .nav-dot.active .dot-inner {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* ===== 平板/小屏幕 (< 768px) ===== */
+@media (max-width: 768px) {
+  .screen {
+    padding: 50px 20px;
+    min-height: 100vh;
+    min-height: 100dvh; /* 动态视口高度，兼容移动端地址栏 */
+  }
+  
+  .main-title {
+    font-size: 3.2rem;
+    letter-spacing: 0;
+    margin-bottom: 20px;
+  }
+  
+  .main-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .section-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  
+  .badge {
+    font-size: 0.8rem;
+    padding: 6px 16px;
+    margin-bottom: 20px;
+  }
+  
+  /* 技术栈标签 - 移动端自适应 */
+  .tech-stack {
+    gap: 10px;
+  }
+  
+  .tech-stack span {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+  
+  /* 隐藏3D形状 */
+  .shape {
+    display: none;
+  }
+  
+  /* 屏幕装饰缩小 */
+  .screen-decoration {
+    transform: scale(0.7);
+    bottom: 20px !important;
+    left: 20px !important;
+  }
+  
+  /* 右侧导航 - 移动端改为底部水平导航 */
+  .screen-nav {
+    position: fixed !important;
+    right: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 25px !important;
+    top: auto !important;
+    width: auto !important;
+    height: auto !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    padding: 12px 24px !important;
+    border-radius: 50px !important;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12) !important;
+    z-index: 1000 !important;
+  }
+  
+  .nav-dot {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+  }
+  
+  .dot-inner {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    border-radius: 50% !important;
+    background: rgba(148, 163, 184, 0.4) !important;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.3s ease !important;
+    position: static !important;
+    transform: none !important;
+  }
+  
+  .nav-dot.active .dot-inner {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    background: rgba(244, 114, 182, 0.9) !important;
+    border-color: rgba(251, 207, 232, 1) !important;
+    box-shadow: 0 0 15px rgba(244, 114, 182, 0.6), 0 0 25px rgba(251, 207, 232, 0.5) !important;
+    filter: blur(0.3px) !important;
+  }
+  
+  .nav-label {
+    display: none !important; /* 移动端隐藏标签 */
+  }
+  
+  /* 视觉实验室布局 */
+  .visual-gallery {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  .experiment-list {
+    gap: 15px;
+  }
+  
+  .experiment-item {
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .exp-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .exp-content h3 {
+    font-size: 1.1rem;
+  }
+  
+  .exp-content p {
+    font-size: 0.9rem;
+  }
+  
+  /* 代码诗篇 */
+  .code-philosophy {
+    gap: 15px;
+  }
+  
+  .philosophy-card {
+    padding: 20px;
+  }
+  
+  .phil-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .philosophy-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .philosophy-card p {
+    font-size: 0.9rem;
+  }
+  
+  .code-window {
+    width: 100%;
+  }
+  
+  .code-content {
+    padding: 15px;
+  }
+  
+  .code-content pre {
+    font-size: 0.75rem;
+  }
+  
+  /* 交互卡片 - 2列 */
+  .interaction-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 40px;
+  }
+  
+  .interaction-card {
+    padding: 20px;
+  }
+  
+  .card-visual {
+    height: 100px;
+    margin-bottom: 15px;
+  }
+  
+  .interaction-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .interaction-card p {
+    font-size: 0.85rem;
+  }
+  
+  .card-tech {
+    font-size: 0.75rem;
+  }
+  
+  /* 小程序展示 - 移动端单列横向滚动 */
+  .phones-container {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px 10px;
+    margin: 30px -20px;
+    width: calc(100% + 40px);
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .phone-wrapper {
+    flex-shrink: 0;
+    scroll-snap-align: center;
+  }
+  
+  .phone-wrapper.main-phone {
+    transform: scale(1);
+  }
+  
+  .phone-device {
+    width: 220px;
+    height: 440px;
+  }
+  
+  .phone-device.large {
+    width: 240px;
+    height: 480px;
+  }
+  
+  .tech-badges {
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .tech-badge {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
+  
+  /* 技术深度 */
+  .tech-depth-container {
+    padding: 20px;
+  }
+  
+  .tech-layer-card {
+    height: 120px;
+  }
+  
+  .layer-name {
+    font-size: 1.2rem;
+  }
+  
+  .detail-card {
+    height: auto;
+    min-height: 120px;
+    padding: 15px;
+  }
+  
+  .detail-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .detail-card p {
+    font-size: 0.85rem;
+  }
+  
+  .tech-tags span {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+  
+  /* 创作理念 */
+  .principles-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 40px 0;
+  }
+  
+  .principle-card {
+    padding: 30px 20px;
+  }
+  
+  .principle-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+  
+  .icon-shape {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .principle-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .principle-card p {
+    font-size: 0.9rem;
+  }
+  
+  .closing-message {
+    margin-top: 40px;
+    padding: 30px 20px;
+  }
+  
+  .message-text {
+    font-size: 1.3rem;
+  }
+  
+  /* 通用调整 */
   .workflow-grid,
   .stats-grid {
     grid-template-columns: 1fr;
@@ -4562,8 +4997,557 @@ export default {
     align-items: center;
   }
   
-  .shape {
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* ===== 手机屏幕 (< 576px) ===== */
+@media (max-width: 576px) {
+  .screen {
+    padding: 40px 16px;
+  }
+  
+  .main-title {
+    font-size: 2.5rem;
+  }
+  
+  .main-desc {
+    font-size: 0.95rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .section-desc {
+    font-size: 0.9rem;
+  }
+  
+  .screen-header {
+    margin-bottom: 30px;
+  }
+  
+  /* 导航 - 小屏幕保持底部水平导航 */
+  .screen-nav {
+    position: fixed !important;
+    right: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 20px !important;
+    top: auto !important;
+    width: auto !important;
+    height: auto !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px 18px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    border-radius: 40px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1000 !important;
+  }
+  
+  .nav-dot {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+  }
+  
+  .dot-inner {
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+    position: static !important;
+    transform: none !important;
+    border-radius: 50% !important;
+    background: rgba(148, 163, 184, 0.4) !important;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .nav-dot.active .dot-inner {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    background: rgba(244, 114, 182, 0.9) !important;
+    border-color: rgba(251, 207, 232, 1) !important;
+    box-shadow: 0 0 12px rgba(244, 114, 182, 0.6), 0 0 20px rgba(251, 207, 232, 0.5) !important;
+    filter: blur(0.3px) !important;
+  }
+  
+  .nav-dot {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  
+  .dot-inner {
+    width: 16px !important;
+    height: 16px !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+  }
+  
+  .nav-dot.active .dot-inner {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
+  /* 技术栈标签 */
+  .tech-stack {
+    gap: 8px;
+  }
+  
+  .tech-stack span {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  
+  /* 视觉实验室 */
+  .visual-gallery {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .gallery-item {
+    border-radius: 12px;
+  }
+  
+  .item-icon {
+    font-size: 1.5rem;
+  }
+  
+  .item-icon .svg-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .item-text {
+    font-size: 0.85rem;
+    bottom: 10px;
+    left: 10px;
+  }
+  
+  .experiment-item {
+    padding: 12px;
+    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .exp-number {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  .exp-content h3 {
+    font-size: 1rem;
+  }
+  
+  .exp-content p {
+    font-size: 0.85rem;
+  }
+  
+  /* 交互卡片 - 单列 */
+  .interaction-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .interaction-card {
+    padding: 18px;
+  }
+  
+  .card-visual {
+    height: 80px;
+    margin-bottom: 12px;
+  }
+  
+  .visual-element {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* 小程序展示 */
+  .phone-device {
+    width: 200px;
+    height: 400px;
+  }
+  
+  .phone-device.large {
+    width: 220px;
+    height: 440px;
+  }
+  
+  .phone-label {
+    font-size: 0.8rem;
+    padding: 6px 14px;
+  }
+  
+  .tech-badge {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+  
+  .badge-icon {
+    font-size: 1rem;
+  }
+  
+  /* 技术深度 */
+  .tech-layers-3d {
+    gap: 15px;
+  }
+  
+  .tech-layer-card {
+    height: 100px;
+  }
+  
+  .layer-name {
+    font-size: 1rem;
+  }
+  
+  .tech-details {
+    gap: 15px;
+  }
+  
+  .detail-card {
+    min-height: 100px;
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  .detail-icon {
+    font-size: 1.5rem;
+  }
+  
+  .detail-card h3 {
+    font-size: 1rem;
+  }
+  
+  .detail-card p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  
+  /* 创作理念 */
+  .closing-message {
+    padding: 25px 15px;
+  }
+  
+  .message-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .message-signature {
+    font-size: 0.85rem;
+  }
+  
+  .signature-line {
+    width: 40px;
+  }
+  
+  /* 隐藏装饰元素 */
+  .screen-decoration {
     display: none;
+  }
+}
+
+/* ===== 超小屏幕 (< 480px) ===== */
+@media (max-width: 480px) {
+  .screen {
+    padding: 30px 12px;
+  }
+  
+  .main-title {
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+  
+  .main-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .section-desc {
+    font-size: 0.85rem;
+  }
+  
+  .badge {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+  
+  /* 右侧导航最简化 */
+  .screen-nav {
+    right: 6px;
+    gap: 8px;
+  }
+  
+  /* 技术栈更紧凑 */
+  .tech-stack span {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+  
+  /* 代码诗篇 */
+  .philosophy-card {
+    padding: 15px;
+  }
+  
+  .phil-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 12px;
+  }
+  
+  .phil-icon .svg-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .philosophy-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+  
+  .philosophy-card p {
+    font-size: 0.85rem;
+  }
+  
+  .code-content pre {
+    font-size: 0.65rem;
+    line-height: 1.4;
+  }
+  
+  /* 交互卡片 */
+  .interaction-card {
+    padding: 15px;
+  }
+  
+  .interaction-card h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .interaction-card p {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+  
+  /* 小程序展示 */
+  .miniapp-showcase-full {
+    padding: 0;
+  }
+  
+  .phone-device {
+    width: 180px;
+    height: 360px;
+    border-radius: 24px;
+  }
+  
+  .phone-device.large {
+    width: 200px;
+    height: 400px;
+  }
+  
+  .phone-notch-mini {
+    width: 60px;
+    height: 16px;
+  }
+  
+  .phone-screen-mini {
+    border-radius: 20px;
+  }
+  
+  /* 技术深度 */
+  .tech-layer-card {
+    height: 90px;
+  }
+  
+  .layer-name {
+    font-size: 0.9rem;
+  }
+  
+  .particle {
+    width: 3px;
+    height: 3px;
+  }
+  
+  .detail-card {
+    min-height: 90px;
+  }
+  
+  /* 创作理念 */
+  .principle-card {
+    padding: 20px 15px;
+  }
+  
+  .principle-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .icon-shape {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .principle-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  
+  .principle-card p {
+    font-size: 0.85rem;
+  }
+  
+  .closing-message {
+    margin-top: 30px;
+    padding: 20px 12px;
+  }
+  
+  .message-text {
+    font-size: 1rem;
+  }
+}
+
+/* ===== 横屏模式优化 ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .screen {
+    min-height: auto;
+    padding: 30px 20px;
+  }
+  
+  .main-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .main-desc {
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+  
+  .screen-header {
+    margin-bottom: 20px;
+  }
+  
+  .split-layout {
+    gap: 30px;
+  }
+  
+  .interaction-grid {
+    margin-top: 20px;
+    gap: 15px;
+  }
+  
+  .phones-container {
+    margin: 20px 0;
+  }
+  
+  .phone-device {
+    width: 150px;
+    height: 300px;
+  }
+  
+  .phone-device.large {
+    width: 170px;
+    height: 340px;
+  }
+}
+
+/* ===== 触控优化 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 增大可点击区域 */
+  .nav-dot {
+    padding: 10px;
+    margin: -10px;
+  }
+  
+  .tech-stack span {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .gallery-item {
+    min-height: 100px;
+  }
+  
+  .experiment-item {
+    min-height: 70px;
+  }
+  
+  /* 移除悬停效果，改用触控反馈 */
+  .philosophy-card:hover,
+  .interaction-card:hover,
+  .principle-card:hover,
+  .tech-badge:hover,
+  .experiment-item:hover {
+    transform: none;
+  }
+  
+  .philosophy-card:active,
+  .interaction-card:active,
+  .principle-card:active,
+  .tech-badge:active,
+  .experiment-item:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  /* 禁用hover动画提升性能 */
+  .phone-device:hover {
+    transform: none;
+  }
+}
+
+/* ===== 减少动画模式 (无障碍) ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .shape,
+  .particle,
+  .wave,
+  .grid-item {
+    animation: none !important;
   }
 }
 </style>

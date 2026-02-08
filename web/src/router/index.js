@@ -1,8 +1,5 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-
-Vue.use(VueRouter);
 
 const routes = [
     {
@@ -21,11 +18,15 @@ const routes = [
         name: 'Blog',
         component: () => import('../views/Blog.vue'),
     },
+    {
+        path: '/blog/:id',
+        name: 'BlogDetail',
+        component: () => import('../views/BlogDetail.vue'),
+    },
 ];
 
-const router = new VueRouter({
-    mode: 'history',
-    base: '/',
+const router = createRouter({
+    history: createWebHistory('/'), // Vue Router 4 使用函数创建 History
     routes,
 });
 

@@ -2,60 +2,58 @@
   <span class="count-up">{{ displayValue }}</span>
 </template>
 
-<script>
-export default {
-  name: "CountUp",
-  props: {
-    endVal: {
-      type: Number,
-      required: true,
-    },
-    duration: {
-      type: Number,
-      default: 2000,
-    },
-  },
-  data() {
-    return {
-      displayValue: 0,
-      frame: null,
-      startTime: null,
-    };
-  },
-  mounted() {
-    this.start();
-  },
-  methods: {
-    start() {
-      this.startTime = null;
-      this.frame = requestAnimationFrame(this.animate);
-    },
-    animate(timestamp) {
-      if (!this.startTime) this.startTime = timestamp;
-      const progress = timestamp - this.startTime;
-      const percentage = Math.min(progress / this.duration, 1);
-      
-      // Easing function (easeOutExpo)
-      const ease = (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
-      
-      this.displayValue = Math.floor(ease(percentage) * this.endVal);
+<script setup>
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
-      if (progress < this.duration) {
-        this.frame = requestAnimationFrame(this.animate);
-      } else {
-        this.displayValue = this.endVal;
-      }
-    },
+const props = defineProps({
+  endVal: {
+    type: Number,
+    required: true,
   },
-  destroyed() {
-    if (this.frame) cancelAnimationFrame(this.frame);
+  duration: {
+    type: Number,
+    default: 2000,
   },
-  watch: {
-    endVal() {
-      this.start();
-    }
+});
+
+const displayValue = ref(0);
+let frame = null;
+let startTime = null;
+
+const animate = (timestamp) => {
+  if (!startTime) startTime = timestamp;
+  const progress = timestamp - startTime;
+  const percentage = Math.min(progress / props.duration, 1);
+  
+  // Easing function (easeOutExpo)
+  const ease = (x) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
+  
+  displayValue.value = Math.floor(ease(percentage) * props.endVal);
+
+  if (progress < props.duration) {
+    frame = requestAnimationFrame(animate);
+  } else {
+    displayValue.value = props.endVal;
   }
 };
+
+const start = () => {
+  startTime = null;
+  if (frame) cancelAnimationFrame(frame);
+  frame = requestAnimationFrame(animate);
+};
+
+watch(() => props.endVal, () => {
+  start();
+});
+
+onMounted(() => {
+  start();
+});
+
+onBeforeUnmount(() => {
+  if (frame) cancelAnimationFrame(frame);
+});
 </script>
 
 <style scoped>

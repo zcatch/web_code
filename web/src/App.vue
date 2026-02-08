@@ -5,13 +5,17 @@
         <!-- Left -->
         <div class="nav-left">
           <router-link to="/" class="logo-link">
-            <div class="logo gradient-text">NEXUS</div>
+            <div class="logo gradient-text">AIZO</div>
           </router-link>
         </div>
         
         <!-- Center -->
         <div class="nav-center">
-          <router-link to="/blog" class="nav-item">博客</router-link>
+          <router-link 
+            to="/blog" 
+            class="nav-item"
+            :class="{ 'router-link-active': $route.path.startsWith('/blog') }"
+          >博客</router-link>
         </div>
 
         <!-- Right -->
@@ -21,23 +25,27 @@
       </div>
     </nav>
 
-    <transition name="fade" mode="out-in">
-      <router-view class="page-content" />
-    </transition>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" class="page-content" />
+      </transition>
+    </router-view>
+    
+    <!-- 返回顶部火箭按钮 -->
+    <BackToTop />
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App',
-};
+<script setup>
+import BackToTop from '@/components/BackToTop.vue';
+
+// <script setup> 模式下，导入的组件可以直接在模板中使用，无需注册
 </script>
 
 <style scoped>
 #app {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  min-height: 100vh;
+  width: 100%;
   background-color: var(--color-bg);
 }
 
@@ -97,7 +105,7 @@ export default {
 
 .nav-item:hover, .nav-item.router-link-active {
   color: var(--color-primary);
-  background: rgba(255, 255, 255, 0.5);
+  background: transparent;
 }
 
 .nav-item.router-link-active::after {
@@ -113,18 +121,89 @@ export default {
 }
 
 .page-content {
-  padding-top: 0; /* REMOVED padding */
-  height: 100%;
+  padding-top: 0;
   width: 100%;
+  min-height: calc(100vh - 70px); /* Fill space without forcing 100% height */
 }
 
-/* Transitions */
+/* Transitions - Fixed for Vue 3 */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
-.fade-enter,
+.fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* ========== 响应式导航栏 ========== */
+@media (max-width: 768px) {
+  .navbar {
+    height: 60px;
+  }
+  
+  .navbar-content {
+    padding: 0 16px;
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+  }
+  
+  .nav-center {
+    gap: 15px;
+  }
+  
+  .nav-item {
+    font-size: 0.95rem;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    height: 55px;
+  }
+  
+  .navbar-content {
+    padding: 0 12px;
+  }
+  
+  .logo {
+    font-size: 1.3rem;
+  }
+  
+  .nav-center {
+    gap: 10px;
+  }
+  
+  .nav-item {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+  }
+  
+  .nav-item.router-link-active::after {
+    width: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    height: 50px;
+  }
+  
+  .navbar-content {
+    padding: 0 10px;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+  }
+  
+  .nav-item {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+  }
 }
 </style>

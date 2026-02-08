@@ -35,22 +35,19 @@
   </svg>
 </template>
 
-<script>
-export default {
-  name: 'Icon',
-  props: {
-    name: {
-      type: String,
-      required: true
-    },
-    size: {
-      type: [Number, String],
-      default: 24
-    },
-    color: {
-      type: String,
-      default: 'currentColor'
-    }
+<script setup>
+defineProps({
+  name: {
+    type: String,
+    required: true
+  },
+  size: {
+    type: [Number, String],
+    default: 24
+  },
+  color: {
+    type: String,
+    default: 'currentColor'
   }
-}
+});
 </script>
