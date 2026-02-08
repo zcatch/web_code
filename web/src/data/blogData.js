@@ -16,7 +16,7 @@ export const articles = [
         category: 'frontend',
         tags: ['Vue.js', 'JS'],
         gradient: 'linear-gradient(135deg, #f472b6 0%, #4f46e5 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 12,
         content: `<h2>Vue 3 的变革</h2><p>Vue 3 的 Composition API 是对 Options API 的巨大补充。它允许开发者将逻辑相关的代码组织在一起，而不是散落在 data, methods, computed 等不同的选项中。</p><h3>为什么使用 setup？</h3><p>setup 函数是 Composition API 的入口点。在这里，我们可以使用 ref 和 reactive 来定义响应式状态，使用 watch 和 computed 来处理副作用和计算属性。</p><pre>import { ref, onMounted } from 'vue';\n\nexport default {\n  setup() {\n    const count = ref(0);\n    onMounted(() => console.log('Mounted!'));\n    return { count };\n  }\n}</pre><blockquote>“Composition API 并不是要取代 Options API，而是为处理复杂业务逻辑提供了更好的工具。”</blockquote>`
     },
@@ -28,7 +28,7 @@ export const articles = [
         category: 'design',
         tags: ['Three.js', '3D'],
         gradient: 'linear-gradient(135deg, #db2777 0%, #7c3aed 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 10,
         content: `<h2>迈向 3D 世界</h2><p>WebGL 是浏览器内置的 3D 图形 API，但它的 API 非常底层且复杂。Three.js 封装了这些复杂性，让我们能用面向对象的方式操作 3D 场景。</p><h3>核心原件</h3><ul><li>场景 (Scene)：你的宇宙</li><li>相机 (Camera)：你的眼睛</li><li>渲染器 (Renderer)：画布</li><li>几何体 (Geometry) 与 材质 (Material)</li></ul><pre>const scene = new THREE.Scene();\nconst camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);\nconst renderer = new THREE.WebGLRenderer();</pre>`
     },
@@ -40,7 +40,7 @@ export const articles = [
         category: 'devops',
         tags: ['Nginx', '运维'],
         gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 14,
         content: `<h2>高性能代理</h2><p>Nginx 以其高性能和低内存占用著称。作为反向代理，它可以有效地隐藏后端架构，并提供额外的安全层。</p><h3>负载均衡策略</h3><p>通过 upstream 模块，我们可以轻松实现流量分发：</p><ul><li>轮询 (Round Robin)</li><li>加权轮询 (Weight)</li><li>IP Hash</li><li>Least Conn</li></ul><pre>upstream myapp {\n  server 192.168.1.10:8080 weight=3;\n  server 192.168.1.11:8080;\n}</pre>`
     },
@@ -52,7 +52,7 @@ export const articles = [
         category: 'devops',
         tags: ['Linux', 'Shell'],
         gradient: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 20,
         content: `<h2>终端效率手册</h2><p>熟练使用 Linux 命令行是开发者进阶的必经之路。本文汇总了运维过程中最常用的命令。</p><h3>进程分析</h3><p>使用 <code>top</code> 或 <code>htop</code> 实时监控 CPU 和内存占用。使用 <code>ps -ef | grep node</code> 查找特定服务的 PID。</p><blockquote>“Shell 是与系统对话的最快方式。”</blockquote>`
     },
@@ -64,7 +64,7 @@ export const articles = [
         category: 'frontend',
         tags: ['CSS', 'Grid'],
         gradient: 'linear-gradient(135deg, #f59e0b 0%, #ea580c 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 15,
         content: `<h2>网格布局的艺术</h2><p>CSS Grid 是 CSS 中最强大的布局系统。与 Flexbox 不同，Grid 是二维的，可以同时处理行和列。</p><h3>核心概念</h3><p>通过 <code>grid-template-columns</code> 和 <code>grid-template-rows</code> 定义容器结构。使用 <code>fr</code> 单位实现完美的比例分配。</p><pre>.container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n}</pre>`
     },
@@ -76,7 +76,7 @@ export const articles = [
         category: 'backend',
         tags: ['Node.js', '后端'],
         gradient: 'linear-gradient(135deg, #10b981 0%, #3b82f6 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 18,
         content: `<h2>透视 V8 引擎</h2><p>Node.js 运行在 V8 引擎之上。了解 V8 的垃圾回收机制（GC）对于编写高性能应用至关重要。</p><h3>内存泄漏常见原因</h3><ul><li>全局变量未释放</li><li>被遗忘的定时器或回调</li><li>闭包导致的意外引用</li></ul><p>通过 <code>process.memoryUsage()</code> 可以实时观察内存占用情况。</p>`
     },
@@ -88,7 +88,7 @@ export const articles = [
         category: 'backend',
         tags: ['Docker', '容器'],
         gradient: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 22,
         content: `<h2>构建你的首个镜像</h2><p>Docker 让应用的分发和部署变得标准化。通过 Dockerfile，我们可以定义一个完全隔离的运行环境。</p><h3>Dockerfile 最佳实践</h3><pre>FROM node:18-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nEXPOSE 3000\nCMD ["npm", "start"]</pre><p>使用 alpine 基础镜像可以极大地减小镜像体积。</p>`
     },
@@ -100,7 +100,7 @@ export const articles = [
         category: 'devops',
         tags: ['CORS', '网络'],
         gradient: 'linear-gradient(135deg, #84cc16 0%, #65a30d 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 8,
         content: `<h2>优雅解决跨域</h2><p>跨域 (CORS) 是前端开发中常见的障碍。虽然可以在后端代码中处理，但在 Nginx 层面处理通常更统一、效率更高。</p><h3>配置示例</h3><pre>add_header 'Access-Control-Allow-Origin' '*';\nadd_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';\nadd_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';</pre>`
     },
@@ -112,7 +112,7 @@ export const articles = [
         category: 'devops',
         tags: ['Shell', '自动化'],
         gradient: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 25,
         content: `<h2>自动化脚本实战</h2><p>不要让手动操作成为你的负担。Bash 脚本可以通过 crontab 配合，实现全天候的自动化任务。</p><h3>备份逻辑</h3><ol><li>dump 数据库数据</li><li>压缩归档</li><li>计算 MD5</li><li>推送到 S3 或远端存储</li></ol><blockquote>“懒惰（以正确的方式）是程序员的美德。”</blockquote>`
     },
@@ -124,7 +124,7 @@ export const articles = [
         category: 'backend',
         tags: ['Go', '并发'],
         gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0c4a6e 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 18,
         content: `<h2>Go 的并发哲学</h2><p>Go 提供了一种全新的并发模型：CSP (Communicating Sequential Processes)。</p><h3>Goroutine 是什么？</h3><p>它是由 Go 运行时管理的轻量级线程。启动一个 goroutine 的成本极低，这让我们可以在一个程序中运行数万个并发任务。</p><pre>func main() {\n  go someTask()\n  // ...\n}</pre>`
     },
@@ -136,7 +136,7 @@ export const articles = [
         category: 'frontend',
         tags: ['TS', '进阶'],
         gradient: 'linear-gradient(135deg, #3178c6 0%, #1e3a8a 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 15,
         content: `<h2>不仅仅是声明类型</h2><p>TypeScript 的类型系统是图灵完备的。这意味着你可以用类型编写复杂的逻辑。</p><h3>条件类型 (Conditional Types)</h3><pre>type IsString<T> = T extends string ? true : false;\n\ntype A = IsString<string>; // true\ntype B = IsString<number>; // false</pre>`
     },
@@ -148,7 +148,7 @@ export const articles = [
         category: 'backend',
         tags: ['Redis', '锁'],
         gradient: 'linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%)',
-        author: 'Nexus',
+        author: 'AIZO',
         readTime: 16,
         content: `<h2>分布式环境的锁</h2><p>在单机环境下，我们可以用 Mutex。但在分布式架构中，我们需要一个中心化的协调者，Redis 往往是最佳选择。</p><h3>SETNX 命令</h3><p>这是分布式锁的基础。<code>SET lock_key resource_id NX PX 30000</code> 这一条命令完美解决了互斥性和超时自动释放的问题。</p>`
     }

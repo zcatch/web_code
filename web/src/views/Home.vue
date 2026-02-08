@@ -74,9 +74,11 @@
                   >
                      <div class="item-bg gradient-1"></div>
                      <div class="item-icon">
-                        <!-- Sparkles SVG -->
-                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        <!-- Galaxy/Particle SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="white">
+                           <circle cx="12" cy="12" r="3" fill="white" />
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9 9 0 100-18 9 9 0 000 18z" opacity="0.3" />
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8V3m0 18v-5m9-4h-5M8 12H3m15.364-6.364l-3.535 3.535m-7.072 7.072l-3.535 3.535m14.142 0l-3.535-3.535M6.343 6.343L9.879 9.879" />
                         </svg>
                      </div>
                      <div class="item-text">粒子系统</div>
@@ -89,10 +91,11 @@
                   >
                      <div class="item-bg gradient-2"></div>
                      <div class="item-icon">
-                        <!-- Water SVG -->
-                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z" />
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.8 13.2a2 2 0 000 2.8" />
+                        <!-- Fluid/Wave SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="white">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12c3-4 6-4 9 0s6 4 9 0" />
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8c3-4 6-4 9 0s6 4 9 0" opacity="0.4" />
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16c3-4 6-4 9 0s6 4 9 0" opacity="0.6" />
                         </svg>
                      </div>
                      <div class="item-text">流体模拟</div>
@@ -105,9 +108,11 @@
                   >
                      <div class="item-bg gradient-3"></div>
                      <div class="item-icon">
-                        <!-- Lightbulb SVG -->
-                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548 5.478A1 1 0 0114.464 21h-4.928a1 1 0 01-.995-.91L8 15.564z" />
+                        <!-- Ray Tracing SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="white">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v18M3 12h18M5.636 5.636l12.728 12.728M18.364 5.636L5.636 18.364" opacity="0.3" />
+                           <circle cx="12" cy="12" r="4" stroke-width="2" />
+                           <path stroke-width="2" d="M12 12L21 12" />
                         </svg>
                      </div>
                      <div class="item-text">光线追踪</div>
@@ -120,9 +125,10 @@
                   >
                      <div class="item-bg gradient-4"></div>
                      <div class="item-icon">
-                        <!-- Shape SVG -->
-                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                        <!-- Morphing SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" class="svg-icon" stroke="white">
+                           <rect x="5" y="5" width="14" height="14" rx="2" stroke-width="1.5" opacity="0.5" />
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8a4 4 0 100 8 4 4 0 000-8z" />
                         </svg>
                      </div>
                      <div class="item-text">形态变换</div>
@@ -1702,11 +1708,19 @@ onBeforeUnmount(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 6rem;
-  opacity: 0.6;
-  transition: opacity 0.5s ease, filter 0.5s ease;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  z-index: 5;
+  opacity: 0.65;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-icon .svg-icon {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
 }
 
 .gallery-item:hover .item-icon {
@@ -5137,8 +5151,8 @@ onBeforeUnmount(() => {
   }
   
   .item-icon .svg-icon {
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
   }
   
   .item-text {
