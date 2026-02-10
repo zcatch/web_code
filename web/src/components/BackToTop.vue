@@ -141,18 +141,18 @@ export default {
           top: 0,
           behavior: 'smooth'
         });
-      }, 100);
+      }, 120);
       
       // 火箭飞走
       setTimeout(() => {
         this.hasFlownAway = true;
-      }, 400);
+      }, 860);
       
       // 动画结束后重置
       setTimeout(() => {
         this.hasFlownAway = false;
         this.isLaunching = false;
-      }, 1200);
+      }, 1450);
     }
   },
   watch: {
@@ -174,20 +174,50 @@ export default {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #ec4899);
+  background: transparent;
   color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
   z-index: 999;
-  transition: all 0.3s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, opacity 0.3s ease;
   overflow: visible;
+  will-change: transform, opacity;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  outline: none;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.rocket-btn:focus,
+.rocket-btn:focus-visible,
+.rocket-btn:active {
+  outline: none;
+}
+
+.rocket-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  z-index: 1;
+  transition: opacity 0.08s linear, box-shadow 0.3s ease;
 }
 
 .rocket-btn:hover {
   transform: translateY(-5px) scale(1.05);
+}
+
+.rocket-btn:hover::before {
   box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
 }
 
@@ -201,6 +231,9 @@ export default {
   height: 28px;
   z-index: 2;
   transition: transform 0.3s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .rocket-btn:hover .rocket-icon {
@@ -278,50 +311,61 @@ export default {
 
 /* 发射中状态 - 真正的飞行效果 */
 .rocket-btn.is-launching {
-  animation: rocketTakeoff 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: rocketTakeoff 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   pointer-events: none;
   /* 发射时背景消失 */
   background: transparent !important;
-  box-shadow: none !important;
-  border-radius: 0;
+  background-color: transparent !important;
+  color: #a855f7;
+  border-radius: 50%;
+}
+
+.rocket-btn.is-launching::before {
+  opacity: 0 !important;
+  transition: none !important;
 }
 
 .rocket-btn.is-launching .rocket-icon {
-  animation: rocketShake 0.08s ease-in-out infinite;
+  animation: rocketShake 0.12s ease-in-out infinite;
   /* 火箭变成橙红色 */
-  filter: drop-shadow(0 0 10px rgba(255, 100, 50, 0.8));
+  filter: none;
+  opacity: 0.98;
 }
 
 .rocket-btn.is-launching .flame-container {
   opacity: 1;
-  animation: flamePowerUp 0.6s ease-out forwards;
+  animation: flamePowerUp 1s ease-out forwards;
 }
 
 .rocket-btn.is-launching .flame-1 {
-  animation: flameBurst 0.08s ease-in-out infinite alternate;
+  animation: flameBurst 0.12s ease-in-out infinite alternate;
 }
 
 .rocket-btn.is-launching .flame-2,
 .rocket-btn.is-launching .flame-3 {
-  animation: flameBurst 0.1s ease-in-out infinite alternate-reverse;
+  animation: flameBurst 0.14s ease-in-out infinite alternate-reverse;
 }
 
 /* 火箭起飞动画 - 先蓄力再飞走 */
 @keyframes rocketTakeoff {
   0% {
-    transform: translateY(0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
     opacity: 1;
   }
-  15% {
-    transform: translateY(8px) scale(1.15);
+  12% {
+    transform: translate3d(0, 7px, 0) scale(1.08) rotate(0deg);
     opacity: 1;
   }
-  30% {
-    transform: translateY(5px) scale(1.1);
+  28% {
+    transform: translate3d(-2px, -12px, 0) scale(1.05) rotate(-3deg);
     opacity: 1;
+  }
+  55% {
+    transform: translate3d(4px, -52vh, 0) scale(0.96) rotate(3deg);
+    opacity: 0.95;
   }
   100% {
-    transform: translateY(-150vh) scale(0.8) rotate(-5deg);
+    transform: translate3d(-6px, -145vh, 0) scale(0.84) rotate(-6deg);
     opacity: 0;
   }
 }
@@ -336,22 +380,22 @@ export default {
   0% {
     transform: translateX(-50%) scaleY(1) scaleX(1);
   }
-  20% {
-    transform: translateX(-50%) scaleY(2.5) scaleX(1.3);
+  25% {
+    transform: translateX(-50%) scaleY(2.2) scaleX(1.2);
   }
   100% {
-    transform: translateX(-50%) scaleY(3) scaleX(1.5);
+    transform: translateX(-50%) scaleY(3.4) scaleX(1.45);
   }
 }
 
 @keyframes flameBurst {
   0% { 
-    transform: scaleY(1.5) scaleX(0.8);
-    height: 35px;
+    transform: scaleY(1.35) scaleX(0.88);
+    height: 30px;
   }
   100% { 
     transform: scaleY(2) scaleX(1.2);
-    height: 35px;
+    height: 36px;
   }
 }
 
@@ -372,15 +416,15 @@ export default {
   height: 10px;
   background: radial-gradient(circle, rgba(255, 200, 100, 0.9), rgba(255, 100, 50, 0.6));
   border-radius: 50%;
-  animation: smokeExplosion 0.6s ease-out forwards;
+  animation: smokeExplosion 0.8s ease-out forwards;
   animation-delay: var(--delay);
   left: calc(50% + var(--offset, 0px));
   box-shadow: 0 0 10px rgba(255, 150, 50, 0.5);
 }
 
 .smoke-particle:nth-child(odd) {
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.4));
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  background: radial-gradient(circle, rgba(255, 190, 120, 0.85), rgba(255, 110, 50, 0.45));
+  box-shadow: 0 0 8px rgba(255, 150, 50, 0.4);
 }
 
 @keyframes smokeExplosion {
@@ -389,11 +433,11 @@ export default {
     transform: translateY(0) scale(0.5);
   }
   50% {
-    opacity: 0.8;
+    opacity: 0.75;
   }
   100% {
     opacity: 0;
-    transform: translateY(60px) translateX(var(--offset, 0)) scale(2.5);
+    transform: translateY(72px) translateX(var(--offset, 0)) scale(2.2);
   }
 }
 
@@ -413,7 +457,7 @@ export default {
   position: absolute;
   top: 0;
   border-radius: 50% 50% 100% 100%;
-  animation: trailStretch 0.5s ease-out forwards;
+  animation: trailStretch 0.9s ease-out forwards;
 }
 
 .trail-1 {
@@ -445,12 +489,12 @@ export default {
     height: 0;
     opacity: 1;
   }
-  30% {
-    height: 150px;
-    opacity: 1;
+  35% {
+    height: 120px;
+    opacity: 0.9;
   }
   100% {
-    height: 300px;
+    height: 240px;
     opacity: 0;
   }
 }
@@ -458,7 +502,7 @@ export default {
 /* 过渡动画 */
 .rocket-fade-enter-active,
 .rocket-fade-leave-active {
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .rocket-fade-enter,

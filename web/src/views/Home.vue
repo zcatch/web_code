@@ -4893,16 +4893,18 @@ onBeforeUnmount(() => {
     flex-direction: row;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 20px;
-    padding: 20px 10px;
-    margin: 30px -20px;
-    width: calc(100% + 40px);
+    gap: 14px;
+    padding: 8px 16px 12px;
+    margin: 12px -16px 10px;
+    width: calc(100% + 32px);
+    align-items: center;
     -webkit-overflow-scrolling: touch;
   }
   
   .phone-wrapper {
     flex-shrink: 0;
     scroll-snap-align: center;
+    gap: 10px;
   }
   
   .phone-wrapper.main-phone {
@@ -4910,23 +4912,30 @@ onBeforeUnmount(() => {
   }
   
   .phone-device {
-    width: 220px;
-    height: 440px;
+    width: 190px;
+    height: 380px;
   }
   
   .phone-device.large {
-    width: 240px;
-    height: 480px;
+    width: 210px;
+    height: 420px;
   }
   
   .tech-badges {
-    gap: 10px;
-    margin-top: 20px;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
   }
   
   .tech-badge {
-    padding: 10px 16px;
-    font-size: 0.8rem;
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
   
   /* 技术深度 */
@@ -4963,13 +4972,19 @@ onBeforeUnmount(() => {
   
   /* 创作理念 */
   .principles-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    margin: 40px 0;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 16px -16px 12px;
+    padding: 0 16px 8px;
+    -webkit-overflow-scrolling: touch;
   }
   
   .principle-card {
-    padding: 30px 20px;
+    flex: 0 0 88%;
+    scroll-snap-align: center;
+    padding: 20px 16px;
   }
   
   .principle-icon {
@@ -4988,16 +5003,23 @@ onBeforeUnmount(() => {
   }
   
   .principle-card p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   
   .closing-message {
-    margin-top: 40px;
-    padding: 30px 20px;
+    margin-top: 20px;
+    padding: 16px 14px;
   }
   
   .message-text {
-    font-size: 1.3rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    margin-bottom: 12px;
   }
   
   /* 通用调整 */
@@ -5318,8 +5340,12 @@ onBeforeUnmount(() => {
   
   /* 右侧导航最简化 */
   .screen-nav {
-    right: 6px;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    bottom: 14px !important;
     gap: 8px;
+    padding: 8px 14px !important;
   }
   
   /* 技术栈更紧凑 */
@@ -5379,14 +5405,14 @@ onBeforeUnmount(() => {
   }
   
   .phone-device {
-    width: 180px;
-    height: 360px;
+    width: 142px;
+    height: 284px;
     border-radius: 24px;
   }
   
   .phone-device.large {
-    width: 200px;
-    height: 400px;
+    width: 158px;
+    height: 316px;
   }
   
   .phone-notch-mini {
@@ -5442,7 +5468,7 @@ onBeforeUnmount(() => {
   }
   
   .closing-message {
-    margin-top: 30px;
+    margin-top: 6px;
     padding: 20px 12px;
   }
   

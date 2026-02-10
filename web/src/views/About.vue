@@ -352,6 +352,7 @@ onMounted(() => {
 }
 
 .skill-card:hover {
+  transform: translateY(-8px);
   background: #ffffff;
   box-shadow: 0 20px 40px -12px rgba(244, 114, 182, 0.1);
   border-color: #ffffff;
@@ -416,8 +417,9 @@ onMounted(() => {
 }
 
 .timeline-container:hover {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(226, 232, 240, 1);
+  transform: translateY(-8px);
+  background: #ffffff;
+  border-color: #ffffff;
   box-shadow: 0 20px 40px -12px rgba(244, 114, 182, 0.1);
 }
 
