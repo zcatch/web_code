@@ -163,7 +163,7 @@
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { Search, ArrowRight, RefreshRight, CircleCheck } from '@element-plus/icons-vue';
-import { articles as rawArticles, categories } from '../data/blogData';
+import { articles as rawArticles, categories } from './data/blogData';
 
 const router = useRouter();
 const route = useRoute();

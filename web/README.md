@@ -208,3 +208,129 @@ MIT License
 ---
 
 **技术与艺术的完美融合，内容与视觉的和谐统一！** 🚀✨
+
+
+---
+
+## 📁 项目结构
+
+```
+web/
+├── .kiro/                      # Kiro 配置和规格文档
+│   └── specs/
+│       └── learning-notes/     # 学习笔记功能规格
+├── src/
+│   ├── views/                  # 页面组件（每个页面独立文件夹）
+│   │   ├── home/              # 首页
+│   │   │   ├── Home.vue
+│   │   │   └── README.md
+│   │   ├── blog/              # 博客
+│   │   │   ├── Blog.vue
+│   │   │   ├── BlogDetail.vue
+│   │   │   ├── data/
+│   │   │   │   └── blogData.js
+│   │   │   └── README.md
+│   │   ├── about/             # 关于
+│   │   │   ├── About.vue
+│   │   │   └── README.md
+│   │   ├── learning/          # 学习笔记
+│   │   │   ├── LearningNotes.vue
+│   │   │   ├── data/
+│   │   │   │   ├── dockerData.js
+│   │   │   │   ├── linuxData.js
+│   │   │   │   ├── phpData.js
+│   │   │   │   ├── redisData.js
+│   │   │   │   ├── elkData.js
+│   │   │   │   └── index.js
+│   │   │   └── README.md
+│   │   └── README.md          # Views 目录说明
+│   ├── components/            # 全局通用组件
+│   ├── router/                # 路由配置
+│   ├── store/                 # Vuex 状态管理
+│   └── style/                 # 全局样式
+├── public/                    # 静态资源
+└── vite.config.js            # Vite 配置
+```
+
+## 页面模块
+
+### 1. 首页（Home）
+**路径:** `src/views/home/`  
+**路由:** `/`
+
+- 7 个全屏展示区域
+- WebGL 粒子动画
+- Three.js 3D 图形
+- 交互式视觉效果
+- 屏幕导航系统
+
+### 2. 博客（Blog）
+**路径:** `src/views/blog/`  
+**路由:** `/blog`, `/blog/:id`
+
+- 文章列表展示（网格布局）
+- 分类和标签筛选
+- 搜索功能
+- 响应式分页/无限滚动
+- 文章详情页
+
+### 3. 学习笔记（Learning Notes）
+**路径:** `src/views/learning/`  
+**路由:** `/learning`
+
+- 技术栈导航（Docker, Linux, PHP, Redis, ELK）
+- 课程式章节结构
+- 代码语法展示
+- 可展开/收起内容
+- 代码复制功能
+
+**Docker 学习内容（7章完整）:**
+1. 基础入门 - Docker 概念、安装配置
+2. 镜像管理 - 镜像操作、Dockerfile
+3. 容器操作 - 容器生命周期管理
+4. 网络配置 - Docker 网络模式
+5. 数据管理 - 数据卷、持久化
+6. Docker Compose - 多容器编排
+7. Ubuntu 部署实战 - 完整项目部署
+
+### 4. 关于（About）
+**路径:** `src/views/about/`  
+**路由:** `/about`
+
+- 个人简介
+- 技能矩阵（前端、后端、运维）
+- 技术沉淀时间线
+- 社交链接
+
+---
+
+## 📂 文件组织规范
+
+### 页面文件夹结构
+每个页面都有独立的文件夹，包含：
+
+```
+page-name/
+├── PageName.vue       # 主页面组件
+├── ComponentName.vue  # 子组件（可选）
+├── data/              # 数据文件（可选）
+│   └── *.js
+└── README.md          # 模块文档
+```
+
+### 命名规范
+- 文件夹名: `kebab-case` (例如: `home`, `blog`, `learning`)
+- Vue 组件: `PascalCase` (例如: `Home.vue`, `BlogDetail.vue`)
+- 数据文件: `camelCase` (例如: `blogData.js`, `dockerData.js`)
+
+### 文档要求
+每个页面文件夹必须包含 `README.md`，详细说明：
+- 模块功能
+- 文件结构
+- 数据格式
+- 技术实现
+- 使用指南
+
+详细规范请参考 `src/views/README.md`
+
+---

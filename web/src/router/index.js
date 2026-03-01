@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+import Home from '../views/home/Home.vue';
 
 const routes = [
     {
@@ -11,17 +11,37 @@ const routes = [
         path: '/about',
         name: 'About',
         // lazy-loaded
-        component: () => import('../views/About.vue'),
+        component: () => import('../views/about/About.vue'),
     },
     {
         path: '/blog',
         name: 'Blog',
-        component: () => import('../views/Blog.vue'),
+        component: () => import('../views/blog/Blog.vue'),
     },
     {
         path: '/blog/:id',
         name: 'BlogDetail',
-        component: () => import('../views/BlogDetail.vue'),
+        component: () => import('../views/blog/BlogDetail.vue'),
+    },
+    {
+        path: '/learning',
+        name: 'LearningNotes',
+        component: () => import('../views/learning/LearningNotes.vue'),
+    },
+    {
+        path: '/learning/:techId/:chapterId/:sectionIndex',
+        name: 'LearningSection',
+        component: () => import('../views/learning/LearningSection.vue'),
+    },
+    {
+        path: '/qa',
+        name: 'QAList',
+        component: () => import('../views/learning/QAList.vue'),
+    },
+    {
+        path: '/qa/:category/:id',
+        name: 'QADetail',
+        component: () => import('../views/learning/QADetail.vue'),
     },
 ];
 

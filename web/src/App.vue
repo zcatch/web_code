@@ -16,6 +16,16 @@
             class="nav-item"
             :class="{ 'router-link-active': $route.path.startsWith('/blog') }"
           >博客</router-link>
+          <router-link 
+            to="/learning" 
+            class="nav-item"
+            :class="{ 'router-link-active': $route.path.startsWith('/learning') }"
+          >学习笔记</router-link>
+          <router-link 
+            to="/qa" 
+            class="nav-item"
+            :class="{ 'router-link-active': $route.path.startsWith('/qa') }"
+          >问答中心</router-link>
         </div>
 
         <!-- Right -->

@@ -80,7 +80,7 @@
 import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
-import { articles as blogArticles, categories } from '../data/blogData';
+import { articles as blogArticles, categories } from './data/blogData';
 
 const route = useRoute();
 const router = useRouter();
@@ -169,12 +169,18 @@ const goToArticle = (id) => router.push(`/blog/${id}`);
   border: 1px solid var(--color-primary-2) !important; 
   color: var(--color-primary) !important; 
   font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
+
+.hero-category-tag:hover {
+  transform: translateY(-2px);
+}
+
 .v-dot { width: 4px; height: 4px; background: #cbd5e1; border-radius: 50%; }
 .publish-date { font-size: 1.05rem; color: #94a3b8; font-weight: 600; }
 
 .clickable { cursor: pointer; transition: all 0.3s; }
-.clickable:hover { transform: translateY(-2px); filter: brightness(0.9); }
 
 /* Content Section - Premium Typography */
 .content-wrapper { padding-bottom: 80px; }
